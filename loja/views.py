@@ -1,55 +1,18 @@
 import time
-import threading
 from django.http import HttpResponse
 
-
-def tarefa_lenta():
-    """
-    Função que simula uma tarefa custosa.
-    Representa processamento pesado ou I/O bloqueante.
-    """
-    time.sleep(3)
-
-
-def execucao_sincrona(request):
-    """
-    Executa as tarefas de forma sequencial (sem concorrência).
-    """
-    inicio = time.time()
-
-    for _ in range(3):
-        tarefa_lenta()
-
-    fim = time.time()
-    tempo_total = fim - inicio
-
-    return HttpResponse(
-        f"Tipo de execução: Sincrona\n"
-        f"Tempo de execução: {tempo_total:.2f} segundos"
-    )
-
-
-def execucao_concorrente(request):
-    """
-    Executa as tarefas de forma concorrente utilizando threads.
-    """
-    inicio = time.time()
-
-    threads = []
-
-    for _ in range(3):
-        thread = threading.Thread(target=tarefa_lenta)
-        thread.start()
-        threads.append(thread)
-
-    # Aguarda todas as threads finalizarem
-    for thread in threads:
-        thread.join()
-
-    fim = time.time()
-    tempo_total = fim - inicio
-
-    return HttpResponse(
-        f"Tipo de execução: Concorrente\n"
-        f"Tempo de execução: {tempo_total:.2f} segundos"
-    )
+def contador_terminal(request):
+    # O professor quer ver estes prints no seu terminal
+    print("\n" + "="*30)
+    print("INICIANDO CONTAGEM MÓDULO 62")
+    print("="*30)
+    
+    for i in range(1, 11):
+        print(f">>> Número: {i}")
+        time.sleep(1) # Pausa de 1 segundo entre os números
+        
+    print("="*30)
+    print("CONTAGEM FINALIZADA")
+    print("="*30 + "\n")
+    
+    return HttpResponse("<h1>Sucesso!</h1><p>A contagem de 1 a 10 foi realizada no terminal do VS Code.</p>")

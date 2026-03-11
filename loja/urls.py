@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import execucao_sincrona, execucao_concorrente
+from . import views
 
 urlpatterns = [
-    path('sincrona/', execucao_sincrona),
-    path('concorrente/', execucao_concorrente),
+    # Rota para disparar o contador
+    path('testar-contador/', views.contador_terminal, name='contador_terminal'),
 ]
