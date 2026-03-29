@@ -1,18 +1,23 @@
-import time
+import asyncio
+import httpx
 from django.http import HttpResponse
 
-def contador_terminal(request):
-    # O professor quer ver estes prints no seu terminal
-    print("\n" + "="*30)
-    print("INICIANDO CONTAGEM MÓDULO 62")
-    print("="*30)
+# View Síncrona (Tradicional) - Apenas para comparação
+def home_sync(request):
+    import time
+    time.sleep(2)  # Bloqueia o thread inteiro por 2 segundos
+    return HttpResponse("Resposta Síncrona: Finalizada após 2s")
+
+# View Assíncrona (O foco do seu exercício)
+async def home_async(request):
+    print("Iniciando a view assíncrona...")
     
-    for i in range(1, 11):
-        print(f">>> Número: {i}")
-        time.sleep(1) # Pausa de 1 segundo entre os números
-        
-    print("="*30)
-    print("CONTAGEM FINALIZADA")
-    print("="*30 + "\n")
+    # Simulando uma chamada de API externa ou espera sem bloquear o servidor
+    await asyncio.sleep(2) 
     
-    return HttpResponse("<h1>Sucesso!</h1><p>A contagem de 1 a 10 foi realizada no terminal do VS Code.</p>")
+    # Exemplo opcional com httpx (mencionado no seu vídeo)
+    # async with httpx.AsyncClient() as client:
+    #     response = await client.get('https://www.google.com')
+    
+    print("Trabalho finalizado no terminal!")
+    return HttpResponse("Resposta Assíncrona: Finalizada com sucesso!")
