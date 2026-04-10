@@ -2,11 +2,16 @@ import asyncio
 import httpx
 from django.http import HttpResponse
 
-# View Síncrona (Tradicional) - Apenas para comparação
-def home_sync(request):
-    import time
-    time.sleep(2)  # Bloqueia o thread inteiro por 2 segundos
-    return HttpResponse("Resposta Síncrona: Finalizada após 2s")
+async def home_async(request):
+    print("Iniciando a view assíncrona...")
+    
+    # Em vez de apenas esperar 2 segundos parado, vamos contar:
+    for i in range(1, 6): # Vai contar de 1 até 5
+        await asyncio.sleep(1) # Espera 1 segundo sem travar o servidor
+        print(f"Passaram-se {i} segundos...")
+    
+    print("Trabalho finalizado no terminal!")
+    return HttpResponse("Resposta Assíncrona: Finalizada com sucesso!")
 
 # View Assíncrona (O foco do seu exercício)
 async def home_async(request):
