@@ -2,25 +2,24 @@ import asyncio
 import httpx
 from django.http import HttpResponse
 
-async def home_async(request):
-    print("Iniciando a view assíncrona...")
-    
-    # Em vez de apenas esperar 2 segundos parado, vamos contar:
-    for i in range(1, 6): # Vai contar de 1 até 5
-        await asyncio.sleep(1) # Espera 1 segundo sem travar o servidor
-        print(f"Passaram-se {i} segundos...")
-    
-    print("Trabalho finalizado no terminal!")
-    return HttpResponse("Resposta Assíncrona: Finalizada com sucesso!")
+# View Síncrona (Tradicional) - Para comparação
+def home_sync(request):
+    import time
+    # Bloqueia o thread inteiro. Ninguém mais entra enquanto não acabar.
+    time.sleep(2)  
+    return HttpResponse("Resposta Síncrona: Finalizada após 2s")
 
 # View Assíncrona (O foco do seu exercício)
 async def home_async(request):
     print("Iniciando a view assíncrona...")
     
-    # Simulando uma chamada de API externa ou espera sem bloquear o servidor
-    await asyncio.sleep(2) 
+    # Este loop atende ao pedido do professor: mostra a contagem no terminal
+    for i in range(1, 6): 
+        # O 'await' libera o servidor para outras tarefas enquanto espera
+        await asyncio.sleep(1) 
+        print(f"Contador: {i} segundos...")
     
-    # Exemplo opcional com httpx (mencionado no seu vídeo)
+    # Exemplo opcional com httpx (caso queira testar uma chamada real depois)
     # async with httpx.AsyncClient() as client:
     #     response = await client.get('https://www.google.com')
     
